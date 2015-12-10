@@ -1,0 +1,136 @@
+package com.example.admin.myapplication;
+
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import java.util.Random;
+
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+    private EditText editText1;
+    private EditText editText2;
+    private SeekBar seekBar;
+    int a, b, c, d;
+    int i=0;
+    private TextView TextValue;
+    private TextView TextValue1;
+    private TextView TextValue2;
+    private TextView TextValue3;
+    final Random random = new Random();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        editText1 = (EditText)findViewById(R.id.editText);
+        editText2 = (EditText)findViewById(R.id.editText2);
+        TextValue = (TextView)findViewById(R.id.textView);
+        TextValue1 = (TextView)findViewById(R.id.textView2);
+        TextValue2 = (TextView)findViewById(R.id.textView3);
+        TextValue3 = (TextView)findViewById(R.id.textView4);
+        TextValue.setText("0");
+        seekBar = (SeekBar)findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(this);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    public void Zadat(View v)
+    {
+        a=0; b=0;
+        if (editText1.getText().toString().length()>0){
+        b = Math.abs((int) Double.parseDouble(editText1.getText().toString()));
+        }
+        if (editText2.getText().toString().length()>0){
+        a = Math.abs((int) Double.parseDouble(editText2.getText().toString()));
+        }
+        if (b>a){
+           c = random.nextInt(b-a)+a;
+            TextValue1.setText(String.valueOf(a));
+            TextValue2.setText(String.valueOf(b));
+        }
+
+    }
+    public void Prinat (View v)
+    {
+        if (d==c)
+        {
+            TextValue3.setText("Вы победили за "+String.valueOf(i)+" ходов");
+        }
+        else
+        {
+            if(d>c)
+            {
+                b=d;
+                TextValue2.setText(String.valueOf(b));
+                i++;
+                seekBar.setProgress(99);
+            }
+            else
+
+            {
+                a=d;
+                TextValue1.setText(String.valueOf(a));
+                i++;
+                seekBar.setProgress(1);
+            }
+        }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+       d = (int)(double)seekBar.getProgress()*(b-a)/100+a;
+        TextValue.setText(String.valueOf(d));
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+    public void Exitt(View v)
+    {
+        System.exit(1);
+    }
+}
